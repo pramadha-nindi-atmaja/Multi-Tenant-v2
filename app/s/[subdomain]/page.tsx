@@ -56,6 +56,9 @@ export default async function SubdomainPage({
           <p className="mt-3 text-lg text-gray-600">
             This is your custom subdomain page
           </p>
+          <p className="mt-2 text-sm text-gray-500">
+            Customized with {subdomainData.emoji} emoji
+          </p>
         </div>
       </div>
     </div>
