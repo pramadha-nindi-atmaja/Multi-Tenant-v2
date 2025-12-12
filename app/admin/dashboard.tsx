@@ -57,6 +57,7 @@ function TenantGrid({
   const [editingTenant, setEditingTenant] = useState<string | null>(null);
   const [editEmoji, setEditEmoji] = useState('');
   
+  // State for handling subdomain updates
   const [updateState, updateAction, isUpdatePending] = useActionState<UpdateState, FormData>(
     updateSubdomainAction,
     {}
