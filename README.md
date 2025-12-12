@@ -14,6 +14,11 @@ A production-ready example of a multi-tenant application built with Next.js 15, 
 - ✅ Support for local development with subdomains
 - ✅ Compatible with Vercel preview deployments
 
+## Recent Improvements
+
+- 🔧 Fixed URL parsing errors in admin dashboard
+- 🛡️ Added better error handling for redirects
+
 ## Tech Stack
 
 - [Next.js 15](https://nextjs.org/) with App Router
