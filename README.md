@@ -10,6 +10,7 @@ A production-ready example of a multi-tenant application built with Next.js 15, 
 - ✅ Redis for tenant data storage
 - ✅ Admin interface for managing tenants
 - ✅ Emoji support for tenant branding
+- ✅ Edit tenant information directly from admin dashboard
 - ✅ Support for local development with subdomains
 - ✅ Compatible with Vercel preview deployments
 

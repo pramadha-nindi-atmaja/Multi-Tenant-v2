@@ -55,7 +55,57 @@ export async function createSubdomainAction(
     createdAt: Date.now()
   });
 
-  redirect(`${protocol}://${sanitizedSubdomain}.${rootDomain}`);
+  const redirectUrl = `${protocol}://${sanitizedSubdomain}.${rootDomain}`;
+  console.log('Redirecting to:', redirectUrl);
+  
+  // Validate the URL before redirecting
+  try {
+    new URL(redirectUrl);
+    redirect(redirectUrl);
+  } catch (error) {
+    console.error('Invalid redirect URL:', redirectUrl, error);
+    // Redirect to home page if URL is invalid
+    redirect('/');
+  }
+}
+
+export async function updateSubdomainAction(
+  prevState: any,
+  formData: FormData
+) {
+  const subdomain = formData.get('subdomain') as string;
+  const icon = formData.get('icon') as string;
+
+  if (!subdomain || !icon) {
+    return { success: false, error: 'Subdomain and icon are required' };
+  }
+
+  if (!isValidIcon(icon)) {
+    return {
+      subdomain,
+      icon,
+      success: false,
+      error: 'Please enter a valid emoji (maximum 10 characters)'
+    };
+  }
+
+  const existingSubdomain: { createdAt: number } | null = await redis.get(`subdomain:${subdomain}`);
+  if (!existingSubdomain) {
+    return {
+      subdomain,
+      icon,
+      success: false,
+      error: 'Subdomain not found'
+    };
+  }
+
+  await redis.set(`subdomain:${subdomain}`, {
+    emoji: icon,
+    createdAt: existingSubdomain.createdAt
+  });
+
+  revalidatePath('/admin');
+  return { success: true, message: 'Subdomain updated successfully' };
 }
 
 export async function deleteSubdomainAction(
