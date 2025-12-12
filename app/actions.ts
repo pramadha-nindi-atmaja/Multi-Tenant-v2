@@ -76,10 +76,12 @@ export async function updateSubdomainAction(
   const subdomain = formData.get('subdomain') as string;
   const icon = formData.get('icon') as string;
 
+  // Validate required fields
   if (!subdomain || !icon) {
     return { success: false, error: 'Subdomain and icon are required' };
   }
 
+  // Validate icon format
   if (!isValidIcon(icon)) {
     return {
       subdomain,
@@ -89,6 +91,7 @@ export async function updateSubdomainAction(
     };
   }
 
+  // Check if subdomain exists
   const existingSubdomain: { createdAt: number } | null = await redis.get(`subdomain:${subdomain}`);
   if (!existingSubdomain) {
     return {
@@ -99,6 +102,7 @@ export async function updateSubdomainAction(
     };
   }
 
+  // Update subdomain data
   await redis.set(`subdomain:${subdomain}`, {
     emoji: icon,
     createdAt: existingSubdomain.createdAt
